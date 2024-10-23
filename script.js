@@ -67,7 +67,7 @@ function generateCheckboxes(startNumber, endNumber) {
     container.appendChild(div);
   }
 
-  // Aktualizacja licznika po wygenerowaniu checkboxów
+  // Aktualizacja licznika po wygenerowaniu divów
   updateCounter();
   generatePageNavigation();
 }
@@ -165,7 +165,7 @@ function init() {
     generateCheckboxes(startNumber, endNumber);
   });
 
-  // Obsługa przycisku czyszczącego checkboxy
+  // Obsługa przycisku czyszczącego divy
   clearBtn.addEventListener("click", clearCheckboxes);
 
   // Obsługa dodawania nowej strony
@@ -180,6 +180,7 @@ function init() {
   // Obsługa usuwania aktualnej strony
   deletePageBtn.addEventListener("click", () => {
     if (totalPages > 1) {
+      // Usuń divy tej strony z localStorage
       const { startNumber, endNumber } = getPageRange(currentPage);
       for (let i = startNumber; i <= endNumber; i++) {
         localStorage.removeItem(`checkbox-${i}-page-${currentPage}`);
@@ -204,146 +205,4 @@ function init() {
 }
 
 // Inicjalizacja strony
-window.onload = function () {
-  if (window.location.search) {
-    loadStateFromURL();
-  } else {
-    init(); // Standardowa inicjalizacja
-  }
-};
-
-document
-  .getElementById("generateLink")
-  .addEventListener("click", generateShareableLink);
-
-// Funkcja do generowania URL z obecnym stanem aplikacji
-function generateShareableLink() {
-  let totalPages = parseInt(localStorage.getItem("totalPages")) || 1;
-  let pageNames = [];
-  let checkboxesState = [];
-
-  for (let i = 1; i <= totalPages; i++) {
-    let pageName = getPageName(i);
-    pageNames.push(pageName);
-
-    let { startNumber, endNumber } = getPageRange(i);
-    let checkboxes = [];
-    for (let j = startNumber; j <= endNumber; j++) {
-      let checkboxState =
-        localStorage.getItem(`checkbox-${j}-page-${i}`) || "red";
-      let stateCode =
-        checkboxState === "red" ? "0" : checkboxState === "orange" ? "1" : "2";
-      checkboxes.push(stateCode);
-    }
-    checkboxesState.push(checkboxes.join(""));
-  }
-
-  let url = `${
-    window.location.origin
-  }?pages=${totalPages}&names=${pageNames.join(
-    ","
-  )}&checkboxes=${checkboxesState.join(",")}`;
-  prompt("Skopiuj link do schowka:", url);
-}
-
-// Funkcja do odczytywania stanu z URL i przywracania stanu aplikacji
-function loadStateFromURL() {
-  const params = new URLSearchParams(window.location.search);
-  const totalPages = parseInt(params.get("pages")) || 1;
-  const pageNames = params.get("names") ? params.get("names").split(",") : [];
-  const checkboxesState = params.get("checkboxes")
-    ? params.get("checkboxes").split(",")
-    : [];
-
-  localStorage.setItem("totalPages", totalPages);
-
-  for (let i = 1; i <= totalPages; i++) {
-    let pageName = pageNames[i - 1] || `Strona ${i}`;
-    savePageName(i, pageName);
-
-    let checkboxStates = checkboxesState[i - 1] || "";
-    let startNumber = 1; // Domyślny startNumber dla każdej strony
-    let endNumber = checkboxStates.length; // Zakładamy, że liczba checkboxów zależy od długości stanu
-
-    savePageRange(i, startNumber, endNumber); // Zapisujemy zakres checkboxów dla tej strony
-
-    for (let j = startNumber; j <= endNumber; j++) {
-      let stateCode = checkboxStates[j - startNumber] || "0";
-      let checkboxState =
-        stateCode === "0" ? "red" : stateCode === "1" ? "orange" : "green";
-      localStorage.setItem(`checkbox-${j}-page-${i}`, checkboxState);
-    }
-  }
-
-  loadPage(1); // Przeładuj pierwszą stronę po przywróceniu stanu
-}
-
-// Funkcja do zapisywania zakresu dla aktualnej strony
-function savePageRange(page, startNumber, endNumber) {
-  localStorage.setItem(`startNumber-page-${page}`, startNumber);
-  localStorage.setItem(`endNumber-page-${page}`, endNumber);
-}
-
-// Funkcja do ładowania strony z odpowiednim zakresem
-function loadPage(page) {
-  const { startNumber, endNumber } = getPageRange(page);
-  document.getElementById("startNumber").value = startNumber;
-  document.getElementById("endNumber").value = endNumber;
-  document.getElementById("pageTitle").textContent = getPageName(page); // Ustawienie tytułu strony
-  generateCheckboxes(startNumber, endNumber);
-}
-
-// Dodajemy obsługę przycisku do generowania linku
-document
-  .getElementById("generateLink")
-  .addEventListener("click", generateShareableLink);
-
-// Sprawdź, czy URL zawiera parametry stanu i przywróć stan
-window.onload = function () {
-  if (window.location.search) {
-    loadStateFromURL();
-  } else {
-    init(); // Standardowa inicjalizacja
-  }
-};
-
-// Funkcja do ładowania strony z odpowiednim zakresem
-function loadPage(page) {
-  const { startNumber, endNumber } = getPageRange(page);
-  document.getElementById("startNumber").value = startNumber;
-  document.getElementById("endNumber").value = endNumber;
-  document.getElementById("pageTitle").textContent = getPageName(page); // Ustawienie tytułu strony
-  generateCheckboxes(startNumber, endNumber);
-}
-
-// Tablica symboli do Base62
-const base62Chars =
-  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
-// Funkcja do konwersji trójkowego ciągu na Base62
-function encodeBase62(num) {
-  let encoded = "";
-  while (num > 0) {
-    encoded = base62Chars[num % 62] + encoded;
-    num = Math.floor(num / 62);
-  }
-  return encoded || "0";
-}
-
-// Funkcja do konwersji Base62 na liczbę
-function decodeBase62(str) {
-  let decoded = 0;
-  for (let i = 0; i < str.length; i++) {
-    decoded = decoded * 62 + base62Chars.indexOf(str[i]);
-  }
-  return decoded;
-}
-// Inicjalizacja strony
-window.onload = function () {
-  if (window.location.search) {
-    localStorage.clear(); // Czyścimy localStorage, jeśli mamy parametry w URL
-    loadStateFromURL(); // Ładujemy stan z URL
-  } else {
-    init(); // Standardowa inicjalizacja
-  }
-};
+window.onload = init;
