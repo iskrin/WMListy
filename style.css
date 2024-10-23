@@ -83,3 +83,9 @@ body {
 #generateLink:hover {
   background-color: #45a049;
 }
+
+footer {
+  margin: 3rem 0;
+  opacity: 0.5;
+  font-size: 0.8rem;
+}
