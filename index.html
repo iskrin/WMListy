@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Generowanie divów</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <h1>Zadania z list</h1>
+    <div class="row">
+      <label for="startNumber">Liczba początkowa:</label>
+      <input type="number" id="startNumber" value="1" />
+
+      <label for="endNumber">Liczba końcowa:</label>
+      <input type="number" id="endNumber" value="10" />
+
+      <button id="clearCheckboxes">Wyczyść</button>
+    </div>
+
+    <!-- Nagłówek z nazwą strony -->
+    <h2 id="pageTitle">Strona 1</h2>
+
+    <div id="checkboxContainer"></div>
+
+    <!-- Licznik checkboxów -->
+    <div id="counter">Zaznaczone: 0 na 0 (0%)</div>
+
+    <!-- Nawigacja między stronami -->
+    <div id="navigation"></div>
+    <div id="pageControls">
+      <input type="text" id="pageName" placeholder="Nazwa strony" />
+      <button id="addPage">Dodaj stronę</button>
+      <button id="deletePage">Usuń stronę</button>
+    </div>
+    <button id="generateLink">Generuj link do stanu</button>
+    <script src="script.js"></script>
+  </body>
+</html>

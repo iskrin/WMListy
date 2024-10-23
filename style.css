@@ -1,0 +1,85 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#checkboxContainer {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* ilość kolumn */
+  gap: 10px; /* Odstępy między elementami */
+  max-width: 800px; /* Opcjonalna szerokość kontenera */
+}
+.checkbox-item {
+  width: 50px;
+  height: 50px;
+  background-color: red; /* Domyślny kolor */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 1rem;
+}
+/* Styl dla licznika checkboxów */
+#counter {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-weight: bold;
+  color: #333;
+  max-width: 300px;
+  text-align: center;
+}
+
+#clearCheckboxes {
+  margin: 0 0.5rem;
+}
+
+.row {
+  margin-bottom: 2rem;
+}
+
+/* Styl dla nawigacji */
+#navigation {
+  margin: 20px 0;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+#navigation button {
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#navigation .active {
+  background-color: #4caf50; /* Kolor aktywnej strony */
+}
+
+#navigation .disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#generateLink {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+#generateLink:hover {
+  background-color: #45a049;
+}
