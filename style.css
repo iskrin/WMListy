@@ -4,7 +4,9 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 0.5rem;
 }
+
 #checkboxContainer {
   display: grid;
   grid-template-columns: repeat(6, 1fr); /* ilość kolumn */
@@ -88,4 +90,47 @@ body {
   margin: 3rem 0;
   opacity: 0.5;
   font-size: 0.8rem;
+}
+
+#pageControls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#pageControls button {
+  margin: 0 0.25rem;
+}
+
+#addDeleteButtonBox {
+  margin: 0.5rem 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inputRow {
+  text-align: center;
+  width: 50%;
+}
+
+.inputRow input {
+  margin: 0.5rem 0;
+  width: 75%;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+  max-width: 400px;
+}
+
+@media (max-width: 370px) {
+  #checkboxContainer {
+    grid-template-columns: repeat(5, 1fr); /* ilość kolumn */
+  }
 }

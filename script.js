@@ -74,15 +74,19 @@ function generateCheckboxes(startNumber, endNumber) {
 
 // Funkcja do czyszczenia zaznaczeń (ustawiamy na czerwono)
 function clearCheckboxes() {
-  const divs = document.querySelectorAll("#checkboxContainer .checkbox-item");
-  divs.forEach((div) => {
-    div.style.backgroundColor = "red"; // Resetowanie koloru
-    localStorage.setItem(
-      `checkbox-${div.textContent}-page-${currentPage}`,
-      "red" // Resetowanie stanu w localStorage
-    );
-  });
-  updateCounter(); // Aktualizacja licznika po wyczyszczeniu zaznaczeń
+  if (confirm("Czy na pewno chcesz usunąć wszystkie zaznaczenia?")) {
+    const divs = document.querySelectorAll("#checkboxContainer .checkbox-item");
+    divs.forEach((div) => {
+      div.style.backgroundColor = "red"; // Resetowanie koloru
+      localStorage.setItem(
+        `checkbox-${div.textContent}-page-${currentPage}`,
+        "red" // Resetowanie stanu w localStorage
+      );
+    });
+    updateCounter(); // Aktualizacja licznika po wyczyszczeniu zaznaczeń
+  } else {
+    return;
+  }
 }
 
 // Funkcja do aktualizowania licznika zaznaczonych divów
@@ -179,19 +183,23 @@ function init() {
 
   // Obsługa usuwania aktualnej strony
   deletePageBtn.addEventListener("click", () => {
-    if (totalPages > 1) {
-      // Usuń divy tej strony z localStorage
-      const { startNumber, endNumber } = getPageRange(currentPage);
-      for (let i = startNumber; i <= endNumber; i++) {
-        localStorage.removeItem(`checkbox-${i}-page-${currentPage}`);
-      }
+    if (confirm("Czy na pewno chcesz usunąć stronę?")) {
+      if (totalPages > 1) {
+        // Usuń divy tej strony z localStorage
+        const { startNumber, endNumber } = getPageRange(currentPage);
+        for (let i = startNumber; i <= endNumber; i++) {
+          localStorage.removeItem(`checkbox-${i}-page-${currentPage}`);
+        }
 
-      totalPages--;
-      localStorage.setItem("totalPages", totalPages);
-      if (currentPage > totalPages) {
-        currentPage = totalPages;
+        totalPages--;
+        localStorage.setItem("totalPages", totalPages);
+        if (currentPage > totalPages) {
+          currentPage = totalPages;
+        }
+        loadPage(currentPage);
       }
-      loadPage(currentPage);
+    } else {
+      return;
     }
   });
 
