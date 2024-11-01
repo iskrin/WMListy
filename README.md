@@ -1,4 +1,4 @@
-<h1>Prosta strona do zaznaczanie jakie zadania z list wykonaliśmy</h1>
+<h1>Prosta strona do zaznaczania jakie zadania z list wykonaliśmy</h1>
 <hl>
 <h3>Domyślne znaczenie kolorów</h3>
 <ul>
